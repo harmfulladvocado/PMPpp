@@ -1,0 +1,572 @@
+/* Pelckmansportaal ++ */
+
+:root {
+    --pmppp-card-bg: rgba(14, 18, 30, 0.86);
+    --pmppp-card-border: rgba(149, 167, 214, 0.24);
+    --pmppp-text-main: #dbe5ff;
+    --pmppp-text-soft: #9ba7c8;
+    --pmppp-input-border: rgba(149, 167, 214, 0.35);
+    --pmppp-input-focus: rgba(122, 146, 219, 0.9);
+    --pmppp-button-border: rgba(149, 167, 214, 0.55);
+    --pmppp-button-bg: linear-gradient(160deg, #2f4f9e, #3b82f6);
+    --pmppp-button-bg-hover: linear-gradient(160deg, #3a61bc, #60a5fa);
+    --pmppp-button-text: #f4f8ff;
+    --pmppp-button-shadow: 0 10px 24px rgba(16, 28, 58, 0.34);
+}
+
+body.pmppp-theme-midnight-sapphire {
+    --pmppp-button-border: rgba(148, 172, 230, 0.64);
+    --pmppp-button-bg: linear-gradient(160deg, #1f3874, #2b5ab9);
+    --pmppp-button-bg-hover: linear-gradient(160deg, #2c4b94, #3c74dd);
+    --pmppp-button-text: #eaf0ff;
+    --pmppp-button-shadow: 0 12px 28px rgba(8, 14, 33, 0.55);
+}
+
+#pmppp-settings-container {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 2147483647;
+}
+
+#pmppp-settings-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(160deg, #315aaf, #3b82f6);
+    color: #f8fbff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#pmppp-settings-menu {
+    width: min(100%, 400px);
+    max-width: 90vw;
+    color: #dbe5ff;
+    border-radius: 24px;
+    border: 2px solid rgba(154, 175, 230, 0.58);
+    background: #121a2f;
+    box-shadow: 0 24px 54px rgba(0, 0, 0, 0.5);
+    padding: 34px;
+    box-sizing: border-box;
+}
+
+#pmppp-settings-overlay.hidden {
+    display: none;
+}
+
+#pmppp-settings-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483646;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding-top: 80px;
+    padding-right: 20px;
+    background: transparent;
+}
+
+#pmppp-settings-menu p {
+    margin: 0 0 15px 0;
+    font-weight: 700;
+    font-size: 24px;
+    color: #8aa6e6;
+    letter-spacing: 0.01em;
+}
+
+.pmppp-settings-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(149, 167, 214, 0.24);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.pmppp-settings-section {
+    margin-bottom: 20px;
+}
+
+.pmppp-settings-section h3 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #9ba7c8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pmppp-settings-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #dbe5ff;
+}
+
+.pmppp-settings-row input[type="checkbox"],
+.pmppp-settings-row input[type="number"] {
+    margin-right: 12px;
+}
+
+.pmppp-settings-row input[type="number"] {
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--pmppp-input-border);
+    background: rgba(5, 10, 20, 0.4);
+    color: #e8eeff;
+    font-size: 14px;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.pmppp-settings-row input[type="number"]:focus {
+    outline: none;
+    border-color: var(--pmppp-input-focus);
+    box-shadow: 0 0 0 2px rgba(122, 146, 219, 0.18);
+}
+
+#pmppp-settings-close {
+    background: none;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #8aa6e6;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+#pmppp-settings-close:hover {
+    background: rgba(138, 166, 230, 0.15);
+}
+
+.pmppp-theme-option {
+    width: 100%;
+    margin: 0 0 6px;
+    padding: 10px 12px;
+    text-align: left;
+    border: 1px solid rgba(136, 148, 185, 0.3);
+    border-radius: 10px;
+    background: rgba(24, 35, 63, 0.75);
+    color: #eaf0ff;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.pmppp-theme-option:last-child {
+    margin-bottom: 0;
+}
+
+.pmppp-theme-option.is-selected {
+    border-color: rgba(124, 150, 224, 0.9);
+    background: rgba(49, 90, 175, 0.45);
+}
+
+#pmppp-background-image-container {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+#pmppp-background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+body.pmppp-theme-midnight-sapphire.pmppp-auth-page,
+body.pmppp-theme-midnight-sapphire.pmppp-login-page {
+    color: var(--pmppp-text-main) !important;
+}
+
+.pmppp-source-hidden {
+    display: none !important;
+}
+
+body.pmppp-auth-page aside.aside.sidebar__wrapper,
+body.pmppp-auth-page header.header,
+body.pmppp-auth-page header.header--gradient,
+body.pmppp-auth-page footer.footer,
+body.pmppp-auth-page .login-content .panel {
+    display: none !important;
+}
+
+body.pmppp-theme-midnight-sapphire.pmppp-custom-auth-active {
+    min-height: 100vh !important;
+}
+
+#pmppp-auth-root {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.pmppp-login-card,
+.pmppp-auth-card {
+    width: min(100%, 440px);
+    border-radius: 24px;
+    border: 2px solid rgba(154, 175, 230, 0.58);
+    background: #121a2f;
+    box-shadow: 0 24px 54px rgba(0, 0, 0, 0.5);
+    padding: 34px;
+}
+
+.pmppp-auth-form-host {
+    width: 100%;
+}
+
+.pmppp-hidden {
+    display: none !important;
+}
+
+.pmppp-auth-form-host .column--left {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+}
+
+.pmppp-login-title {
+    margin: 0 0 18px;
+    color: #8aa6e6;
+    font-size: 34px;
+    line-height: 1.06;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.pmppp-auth-title {
+    margin: 0 0 14px;
+    color: #8aa6e6;
+    font-size: 34px;
+    line-height: 1.06;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.pmppp-landing-auth .headline {
+    margin: 0 0 14px !important;
+    color: #8aa6e6 !important;
+    font-size: 34px !important;
+    line-height: 1.06 !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.01em !important;
+}
+
+.pmppp-landing-auth .features,
+.pmppp-landing-auth .column--right {
+    display: none !important;
+}
+
+body.pmppp-landing-standalone .pmppp-auth-card {
+    width: min(100%, 460px);
+}
+
+body.pmppp-landing-standalone #pmppp-auth-root {
+    padding: 16px;
+}
+
+body.pmppp-landing-standalone .pmppp-auth-card {
+    border-radius: 16px;
+    border: 1px solid rgba(102, 120, 163, 0.45);
+    background: linear-gradient(180deg, rgba(20, 28, 46, 0.96), rgba(14, 20, 34, 0.96));
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.45);
+    padding: 22px;
+}
+
+body.pmppp-landing-standalone .pmppp-auth-title {
+    margin: 0 0 10px;
+    color: #b9c6e8;
+    font-size: 27px;
+    letter-spacing: 0;
+}
+
+.pmppp-landing-auth .info-links {
+    margin-top: 8px;
+}
+
+.pmppp-landing-auth .info-links p {
+    margin: 6px 0;
+}
+
+.pmppp-landing-auth .info-link .icon {
+    display: none !important;
+}
+
+.pmppp-landing-auth .info-link::before,
+.pmppp-landing-auth .info-link::after {
+    content: none !important;
+}
+
+.pmppp-more-button {
+    background: linear-gradient(160deg, #304160, #3b4f73) !important;
+    border-color: rgba(138, 154, 189, 0.5) !important;
+}
+
+.pmppp-landing-auth-standalone .pmppp-landing-submit {
+    position: relative;
+    justify-content: center;
+    min-height: 44px;
+}
+
+.pmppp-landing-auth-standalone {
+    gap: 10px;
+}
+
+.pmppp-landing-auth-standalone .pmppp-landing-button-icon {
+    position: absolute;
+    left: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+}
+
+.pmppp-landing-auth-standalone .pmppp-landing-button-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.pmppp-landing-auth-standalone .pmppp-landing-button-text {
+    display: block;
+    text-align: center;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.pmppp-landing-auth-standalone .pmppp-more-links.hidden {
+    display: none;
+}
+
+.pmppp-landing-auth-standalone .pmppp-more-button {
+    margin-top: 2px;
+    min-height: 38px;
+    background: linear-gradient(160deg, #304160, #3b4f73);
+    border-color: rgba(138, 154, 189, 0.5);
+}
+
+.pmppp-landing-auth-standalone .info-links {
+    margin-top: 2px;
+}
+
+.pmppp-landing-auth-standalone .info-links p {
+    margin: 5px 0;
+}
+
+.pmppp-landing-auth-standalone .pmppp-link-button {
+    min-height: 34px;
+    margin-top: 0;
+    font-size: 12px;
+    font-weight: 500;
+    border-color: rgba(117, 133, 167, 0.45);
+    background: linear-gradient(160deg, #29364f, #334564);
+    color: #d3ddef;
+}
+
+.pmppp-landing-auth-standalone .pmppp-link-button:hover {
+    background: linear-gradient(160deg, #334464, #40557a);
+}
+
+.pmppp-custom-login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pmppp-auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pmppp-custom-login-form label {
+    color: var(--pmppp-text-soft);
+    font-size: 13px;
+}
+
+.pmppp-auth-form label,
+.pmppp-auth-form .required > span {
+    color: var(--pmppp-text-soft) !important;
+    font-size: 13px !important;
+}
+
+.pmppp-custom-login-form input {
+    height: 38px;
+    border-radius: 999px;
+    border: 2px solid var(--pmppp-input-border);
+    background: rgba(5, 10, 20, 0.25);
+    color: #e8eeff;
+    font-size: 15px;
+    padding: 0 18px;
+    box-sizing: border-box;
+}
+
+.pmppp-auth-form input[type="text"],
+.pmppp-auth-form input[type="password"],
+.pmppp-auth-form input[type="email"],
+.pmppp-auth-form input[type="tel"] {
+    height: 38px !important;
+    border-radius: 999px !important;
+    border: 2px solid var(--pmppp-input-border) !important;
+    background: rgba(5, 10, 20, 0.25) !important;
+    color: #e8eeff !important;
+    font-size: 15px !important;
+    padding: 0 14px !important;
+    box-sizing: border-box !important;
+}
+
+.pmppp-custom-login-form input:focus {
+    outline: none;
+    border-color: var(--pmppp-input-focus);
+    box-shadow: 0 0 0 2px rgba(122, 146, 219, 0.18);
+}
+
+.pmppp-auth-form input:focus {
+    outline: none !important;
+    border-color: var(--pmppp-input-focus) !important;
+    box-shadow: 0 0 0 2px rgba(122, 146, 219, 0.18) !important;
+}
+
+.pmppp-login-link {
+    margin: 8px 0 4px;
+    color: #b9c8ee;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.pmppp-action-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 42px;
+    padding: 0 16px;
+    margin-top: 10px;
+    border-radius: 999px;
+    border: 1px solid var(--pmppp-button-border);
+    background: var(--pmppp-button-bg);
+    color: var(--pmppp-button-text);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: var(--pmppp-button-shadow);
+    transition: transform 0.14s ease, box-shadow 0.2s ease, background 0.2s ease;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.pmppp-action-button:hover {
+    background: var(--pmppp-button-bg-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 28px rgba(16, 28, 58, 0.4);
+}
+
+.pmppp-action-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 8px 18px rgba(16, 28, 58, 0.3);
+}
+
+.pmppp-action-button:focus-visible {
+    outline: 2px solid rgba(168, 197, 255, 0.8);
+    outline-offset: 2px;
+}
+
+body.pmppp-theme-midnight-sapphire .pmppp-auth-form .pmppp-action-button,
+body.pmppp-theme-midnight-sapphire .pmppp-auth-form .pmppp-submit-button,
+body.pmppp-theme-midnight-sapphire .pmppp-auth-form button[type="submit"] {
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 42px !important;
+    padding: 0 16px !important;
+    margin: 10px 0 0 0 !important;
+    box-sizing: border-box !important;
+    gap: 10px !important;
+    border-radius: 999px !important;
+    border: 1px solid var(--pmppp-button-border) !important;
+    background: var(--pmppp-button-bg) !important;
+    color: var(--pmppp-button-text) !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    box-shadow: var(--pmppp-button-shadow) !important;
+    transition: transform 0.14s ease, box-shadow 0.2s ease, background 0.2s ease !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+}
+
+body.pmppp-theme-midnight-sapphire .pmppp-auth-form .pmppp-action-button:hover,
+body.pmppp-theme-midnight-sapphire .pmppp-auth-form .pmppp-submit-button:hover,
+body.pmppp-theme-midnight-sapphire .pmppp-auth-form button[type="submit"]:hover {
+    background: var(--pmppp-button-bg-hover) !important;
+    transform: translateY(-1px) !important;
+}
+
+.pmppp-auth-form .pmppp-action-button .logo,
+.pmppp-auth-form .pmppp-submit-button .logo {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+}
+
+.pmppp-auth-form .pmppp-action-button .logo img,
+.pmppp-auth-form .pmppp-submit-button .logo img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+body.pmppp-theme-midnight-sapphire .row.user-modules {
+    background: rgba(9, 17, 40, 0.72) !important;
+    border: 1px solid rgba(120, 139, 189, 0.2) !important;
+    border-radius: 14px !important;
+    padding: 10px !important;
+}
+
+body.pmppp-theme-midnight-sapphire .orb,
+body.pmppp-theme-midnight-sapphire .panel,
+body.pmppp-theme-midnight-sapphire .panel.panel--primary {
+    background: rgba(18, 29, 58, 0.8) !important;
+    border: 1px solid rgba(120, 139, 189, 0.25) !important;
+}
+
+body.pmppp-theme-midnight-sapphire .orb__title,
+body.pmppp-theme-midnight-sapphire .orb__subtitle,
+body.pmppp-theme-midnight-sapphire .panel {
+    color: #e6edff !important;
+}

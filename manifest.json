@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Pelckmansportaal ++",
+  "version": "1.0.0",
+  "description": "Enhance your PelckmansPortaal experience.",
+  "permissions": ["storage", "alarms", "cookies"],
+  "host_permissions": [
+    "*://*.pelckmansportaal.be/*",
+    "*://id.pelckmans.be/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.pelckmansportaal.be/*",
+        "*://id.pelckmans.be/*"
+      ],
+      "js": ["content.js"],
+      "css": ["inject.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["Themes/Midnight_sapphire.png"],
+      "matches": [
+        "*://*.pelckmansportaal.be/*",
+        "*://id.pelckmans.be/*"
+      ]
+    }
+  ]
+}
