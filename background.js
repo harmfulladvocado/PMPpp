@@ -1,17 +1,13 @@
 const DEFAULT_SETTINGS = {
     theme: "midnight-sapphire",
-    compactLogin: true,
     persistentLogin: false,
     cookieDuration: 365
 };
 
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.sync.get(["theme", "compactLogin", "persistentLogin", "cookieDuration"], (current) => {
+    chrome.storage.sync.get(["theme", "persistentLogin", "cookieDuration"], (current) => {
         const next = {
             theme: current.theme || DEFAULT_SETTINGS.theme,
-            compactLogin: typeof current.compactLogin === "boolean"
-                ? current.compactLogin
-                : DEFAULT_SETTINGS.compactLogin,
             persistentLogin: typeof current.persistentLogin === "boolean"
                 ? current.persistentLogin
                 : DEFAULT_SETTINGS.persistentLogin,

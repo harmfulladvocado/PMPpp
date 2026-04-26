@@ -1,6 +1,5 @@
 const STORAGE_KEYS = {
     THEME: "theme",
-    COMPACT_LOGIN: "compactLogin",
     PERSISTENT_LOGIN: "persistentLogin",
     COOKIE_DURATION: "cookieDuration"
 };
@@ -119,12 +118,6 @@ function injectSettingsButton() {
         "</div>",
         "<div class=\"pmppp-settings-section\">",
         "<label class=\"pmppp-settings-row\">",
-        "<input type=\"checkbox\" id=\"pmppp-compact-login-toggle\">",
-        "<span>Compacte loginweergave</span>",
-        "</label>",
-        "</div>",
-        "<div class=\"pmppp-settings-section\">",
-        "<label class=\"pmppp-settings-row\">",
         "<input type=\"checkbox\" id=\"pmppp-persistent-login-toggle\">",
         "<span>Blijf ingelogd (Cookies)</span>",
         "</label>",
@@ -174,16 +167,9 @@ function injectSettingsButton() {
     });
 
     // Toggles logic
-    const compactLoginToggle = document.getElementById("pmppp-compact-login-toggle");
     const persistentLoginToggle = document.getElementById("pmppp-persistent-login-toggle");
     const durationContainer = document.getElementById("pmppp-cookie-duration-container");
     const durationInput = document.getElementById("pmppp-cookie-duration-input");
-
-    if (compactLoginToggle) {
-        compactLoginToggle.addEventListener("change", (e) => {
-            chrome.storage.sync.set({ [STORAGE_KEYS.COMPACT_LOGIN]: e.target.checked });
-        });
-    }
 
     if (persistentLoginToggle) {
         persistentLoginToggle.addEventListener("change", (e) => {
@@ -204,13 +190,10 @@ function injectSettingsButton() {
 
     // Populate current settings visually
     chrome.storage.sync.get(
-        [STORAGE_KEYS.THEME, STORAGE_KEYS.COMPACT_LOGIN, STORAGE_KEYS.PERSISTENT_LOGIN, STORAGE_KEYS.COOKIE_DURATION],
+        [STORAGE_KEYS.THEME, STORAGE_KEYS.PERSISTENT_LOGIN, STORAGE_KEYS.COOKIE_DURATION],
         (settings) => {
             const currentTheme = settings[STORAGE_KEYS.THEME] || THEMES.DEFAULT;
             syncThemeMenu(currentTheme);
-
-            const compact = typeof settings[STORAGE_KEYS.COMPACT_LOGIN] === "boolean" ? settings[STORAGE_KEYS.COMPACT_LOGIN] : true;
-            if (compactLoginToggle) compactLoginToggle.checked = compact;
 
             const persistent = typeof settings[STORAGE_KEYS.PERSISTENT_LOGIN] === "boolean" ? settings[STORAGE_KEYS.PERSISTENT_LOGIN] : false;
             if (persistentLoginToggle) persistentLoginToggle.checked = persistent;
@@ -522,7 +505,7 @@ function teardownCustomAuthShell() {
     document.body.classList.remove("pmppp-landing-standalone");
 }
 
-function applyAuthStructure(compactLogin) {
+function applyAuthStructure() {
     const pageType = getAuthPageType();
     const previousClasses = ["pmppp-auth-login", "pmppp-auth-lostpassword", "pmppp-auth-register"];
     document.body.classList.remove(...previousClasses);
@@ -534,22 +517,17 @@ function applyAuthStructure(compactLogin) {
     }
 
     document.body.classList.add("pmppp-login-page");
-    document.body.classList.toggle("pmppp-compact-login", compactLogin);
+    document.body.classList.add("pmppp-compact-login");
 
-    if (compactLogin) {
-        renderCustomAuthShell(pageType);
-    } else {
-        teardownCustomAuthShell();
-        document.body.classList.remove("pmppp-auth-page", "pmppp-custom-auth-active");
-    }
+    renderCustomAuthShell(pageType);
 }
 
-function applyState(theme, compactLogin) {
+function applyState(theme) {
     document.body.classList.remove("pmppp-theme-midnight-sapphire");
     document.body.classList.toggle("pmppp-theme-midnight-sapphire", theme === THEMES.MIDNIGHT);
 
     ensureMidnightBackground(theme === THEMES.MIDNIGHT && !isDigiboekPage());
-    applyAuthStructure(compactLogin);
+    applyAuthStructure();
     syncThemeMenu(theme);
 }
 
@@ -563,22 +541,19 @@ function syncThemeMenu(theme) {
 
 function applyStateFromStorage() {
     if (!canUseChromeApi()) {
-        applyState(THEMES.MIDNIGHT, true);
+        applyState(THEMES.MIDNIGHT);
         return;
     }
 
     try {
-        chrome.storage.sync.get([STORAGE_KEYS.THEME, STORAGE_KEYS.COMPACT_LOGIN], (settings) => {
+        chrome.storage.sync.get([STORAGE_KEYS.THEME, STORAGE_KEYS.PERSISTENT_LOGIN, STORAGE_KEYS.COOKIE_DURATION], (settings) => {
             if (APP_STATE.contextInvalidated) {
                 return;
             }
 
             const safeSettings = settings && typeof settings === "object" ? settings : {};
             const theme = safeSettings[STORAGE_KEYS.THEME] || THEMES.MIDNIGHT;
-            const compactLogin = typeof safeSettings[STORAGE_KEYS.COMPACT_LOGIN] === "boolean"
-                ? safeSettings[STORAGE_KEYS.COMPACT_LOGIN]
-                : true;
-            applyState(theme, compactLogin);
+            applyState(theme);
 
             // Keep the injected menu UI in sync if the popup changes it or logic changes it
             syncMenuUI(safeSettings);
@@ -588,19 +563,14 @@ function applyStateFromStorage() {
             markContextInvalidated();
             return;
         }
-        applyState(THEMES.MIDNIGHT, true);
+        applyState(THEMES.MIDNIGHT);
     }
 }
 
 function syncMenuUI(settings) {
-    const compactToggle = document.getElementById("pmppp-compact-login-toggle");
     const persistentToggle = document.getElementById("pmppp-persistent-login-toggle");
     const durationContainer = document.getElementById("pmppp-cookie-duration-container");
     const durationInput = document.getElementById("pmppp-cookie-duration-input");
-
-    if (compactToggle && typeof settings[STORAGE_KEYS.COMPACT_LOGIN] === "boolean") {
-        compactToggle.checked = settings[STORAGE_KEYS.COMPACT_LOGIN];
-    }
     
     if (persistentToggle && typeof settings[STORAGE_KEYS.PERSISTENT_LOGIN] === "boolean") {
         persistentToggle.checked = settings[STORAGE_KEYS.PERSISTENT_LOGIN];
@@ -639,7 +609,7 @@ function init() {
             if (areaName !== "sync") {
                 return;
             }
-            if (changes[STORAGE_KEYS.THEME] || changes[STORAGE_KEYS.COMPACT_LOGIN]) {
+            if (changes[STORAGE_KEYS.THEME] || changes[STORAGE_KEYS.PERSISTENT_LOGIN] || changes[STORAGE_KEYS.COOKIE_DURATION]) {
                 applyStateFromStorage();
             }
         });

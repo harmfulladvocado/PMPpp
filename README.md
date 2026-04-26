@@ -6,18 +6,16 @@ Pelckmansportaal ++ is a Chromium extension that applies multiple themes on Pelc
 
 - Clean MV3 setup with only required permissions.
 - Login page theme with your background image: `Midnight_sapphire.png`.
-- Compact centered login card (smpp-inspired style, original implementation).
-- Top-right in-page settings button (`P++`) to switch theme quickly.
-- Popup settings for theme and compact-login toggle.
+- Compact centered login card natively applied (smpp-inspired style, original implementation).
+- Top-right in-page floating settings button (`P++`) to switch theme and set persistence.
 
 ## How it works
 
-- `background.js` sets default config in `chrome.storage.sync` on install.
+- `background.js` sets default config in `chrome.storage.sync` on install and listens to cookies to enforce persistency.
 - `content.js` reads settings, injects the settings menu, applies classes, and updates UI on SPA DOM changes.
 - `inject.css` contains all Midnight Sapphire styling for:
   - login (`id.pelckmans.be/.../login/...`)
   - dashboard readability tweaks (`.orb__title`, `.row.user-modules`, `.panel`)
-- `popup.*` provides quick extension settings.
 
 ## Sideload for testing (Chrome / Edge / Brave)
 
@@ -28,7 +26,7 @@ Pelckmansportaal ++ is a Chromium extension that applies multiple themes on Pelc
 2. Enable **Developer mode**.
 3. Click **Load unpacked**.
 4. Select this folder: `C:\Users\victor.bonte\Documents\Projects\PMPpp`.
-5. Open `https://id.pelckmans.be/nl/login/p` and test theme switching from popup or `P++` button.
+5. Open `https://id.pelckmans.be/nl/login/p` and test the on-page settings menu via the `P++` button.
 
 ## Notes
 
