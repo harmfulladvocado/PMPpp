@@ -1,34 +1,30 @@
-# Pelckmansportaal ++
+# Pelckmans Portaal ++
+A Chromium extension for applying custom themes on Pelckmans Portaal.
+It lets you switch between themes and control persistence, so the platform looks and feels the way you want it to.
 
-Pelckmansportaal ++ is a Chromium extension that applies multiple themes on Pelckmans Portaal.
+## What it does
+- Applies the Midnight Sapphire theme across the login page and dashboard
+- Injects a floating `P++` settings button to switch themes and toggle persistence
+- Saves your preferences with Chrome sync storage
+- Enforces theme persistence on SPA DOM changes
 
-## What this project includes
+## Installation
+**Chromium-based browsers (Chrome, Brave, Edge):**
+1. Run `git clone https://github.com/harmfulladvocado/PMPpp` or download this repo as a zip
+2. Open your extensions page:
+   - Chrome: `chrome://extensions/`
+   - Brave: `brave://extensions/`
+   - Edge: `edge://extensions/`
+3. Enable **Developer mode**
+4. Click **Load unpacked**
+5. Select the project folder
+6. Enjoy!
 
-- Clean MV3 setup with only required permissions.
-- Login page theme with your background image: `Midnight_sapphire.png`.
-- Compact centered login card natively applied (smpp-inspired style, original implementation).
-- Top-right in-page floating settings button (`P++`) to switch theme and set persistence.
-
-## How it works
-
-- `background.js` sets default config in `chrome.storage.sync` on install and listens to cookies to enforce persistency.
-- `content.js` reads settings, injects the settings menu, applies classes, and updates UI on SPA DOM changes.
-- `inject.css` contains all Midnight Sapphire styling for:
-  - login (`id.pelckmans.be/.../login/...`)
-  - dashboard readability tweaks (`.orb__title`, `.row.user-modules`, `.panel`)
-
-## Sideload for testing (Chrome / Edge / Brave)
-
-1. Open extension management page:
-   - Chrome: `chrome://extensions`
-   - Edge: `edge://extensions`
-   - Brave: `brave://extensions`
-2. Enable **Developer mode**.
-3. Click **Load unpacked**.
-4. Select this folder: `C:\Users\victor.bonte\Documents\Projects\PMPpp`.
-5. Open `https://id.pelckmans.be/nl/login/p` and test the on-page settings menu via the `P++` button.
+## Usage
+1. Open [id.pelckmans.be](https://id.pelckmans.be/nl/login/p)
+2. The theme applies automatically on page load
+3. Click the `P++` button to switch themes or adjust persistence settings
 
 ## Notes
-
-- The extension does not bypass authentication.
-- Styling is applied inside the authenticated browser session only.
+- The extension does not bypass authentication
+- Styling is applied inside the authenticated browser session only
