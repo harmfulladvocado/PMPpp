@@ -3,13 +3,23 @@
   "name": "Pelckmansportaal ++",
   "version": "1.0.0",
   "description": "Enhance your PelckmansPortaal experience.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "pmppp@victor.bonte",
+      "strict_min_version": "109.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
   "permissions": ["storage", "alarms", "cookies"],
   "host_permissions": [
     "*://*.pelckmansportaal.be/*",
     "*://id.pelckmans.be/*"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "scripts": ["background.js"]
   },
   "content_scripts": [
     {

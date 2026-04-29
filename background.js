@@ -56,9 +56,6 @@ chrome.cookies.onChanged.addListener((changeInfo) => {
         
         // Only target target domains
         if (cookie.domain.includes("pelckmans.be") || cookie.domain.includes("pelckmansportaal.be")) {
-            // When a cookie is a "session" cookie, it gets cleared when the browser closes.
-            // Some cookies also have short expiration times causing the website to log you out.
-            // By giving them an expiration date far into the future, we make them persistent.
             const targetExpiration = (Date.now() / 1000) + (durationInDays * 24 * 60 * 60);
             if (cookie.session || (cookie.expirationDate && cookie.expirationDate < targetExpiration - 3600)) {
                 // Avoid extending empty cookies that the server is trying to clear
