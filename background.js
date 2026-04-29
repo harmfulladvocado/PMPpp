@@ -57,8 +57,13 @@ chrome.cookies.onChanged.addListener((changeInfo) => {
         // Only target target domains
         if (cookie.domain.includes("pelckmans.be") || cookie.domain.includes("pelckmansportaal.be")) {
             // When a cookie is a "session" cookie, it gets cleared when the browser closes.
-            // By giving it an expiration date far into the future, we make it persistent.
-            if (cookie.session) {
+            // Some cookies also have short expiration times causing the website to log you out.
+            // By giving them an expiration date far into the future, we make them persistent.
+            const targetExpiration = (Date.now() / 1000) + (durationInDays * 24 * 60 * 60);
+            if (cookie.session || (cookie.expirationDate && cookie.expirationDate < targetExpiration - 3600)) {
+                // Avoid extending empty cookies that the server is trying to clear
+                if (cookie.value.length < 2 && ["", "deleted"].includes(cookie.value.toLowerCase())) return;
+                
                 const url = (cookie.secure ? "https://" : "http://") + cookie.domain.replace(/^\./, "") + cookie.path;
                 chrome.cookies.set({
                     url: url,
@@ -70,7 +75,7 @@ chrome.cookies.onChanged.addListener((changeInfo) => {
                     httpOnly: cookie.httpOnly,
                     sameSite: cookie.sameSite,
                     storeId: cookie.storeId,
-                    expirationDate: (Date.now() / 1000) + (durationInDays * 24 * 60 * 60)
+                    expirationDate: targetExpiration
                 });
             }
         }
