@@ -14,6 +14,7 @@ const APP_STATE = {
     storageListenerBound: false,
     formPlaceholder: null,
     movedAuthNode: null,
+    hiddenSignUp: null,
     contextInvalidated: false
 };
 
@@ -457,7 +458,8 @@ function renderCustomAuthShell(pageType) {
 
     const signUpSection = document.getElementById("sign-up");
     if (signUpSection) {
-        signUpSection.remove();
+        signUpSection.style.display = "none";
+        APP_STATE.hiddenSignUp = signUpSection;
     }
 
     if (form) {
@@ -487,6 +489,11 @@ function teardownCustomAuthShell() {
     APP_STATE.formPlaceholder = null;
     APP_STATE.movedAuthNode = null;
 
+    if (APP_STATE.hiddenSignUp) {
+        APP_STATE.hiddenSignUp.style.display = "";
+        APP_STATE.hiddenSignUp = null;
+    }
+
     const shell = document.getElementById("pmppp-auth-root");
 
     if (shell) {
@@ -500,6 +507,33 @@ function teardownCustomAuthShell() {
 
     document.querySelectorAll(".pmppp-source-hidden").forEach((node) => {
         node.classList.remove("pmppp-source-hidden");
+    });
+
+    // Revert info links display
+    document.querySelectorAll('.pmppp-more-button').forEach(btn => btn.remove());
+    document.querySelectorAll('.info-links[data-pmppp-initialized]').forEach(container => {
+        container.removeAttribute('data-pmppp-initialized');
+        container.style.display = "";
+    });
+
+    // Revert padlock emoji from login links
+    document.querySelectorAll('.pmppp-login-link').forEach((link) => {
+        const text = link.textContent || "";
+        if (text.startsWith("🔒 ")) {
+            link.textContent = text.substring(2);
+        }
+    });
+
+    // Completely revert classes added to native elements
+    document.querySelectorAll(".pmppp-auth-form, .pmppp-landing-auth, .pmppp-action-button, .pmppp-submit-button, .pmppp-login-link, .pmppp-register-button").forEach((node) => {
+        node.classList.remove(
+            "pmppp-auth-form",
+            "pmppp-landing-auth",
+            "pmppp-action-button",
+            "pmppp-submit-button",
+            "pmppp-login-link",
+            "pmppp-register-button"
+        );
     });
 
     document.body.classList.remove("pmppp-landing-standalone");
@@ -527,7 +561,15 @@ function applyState(theme) {
     document.body.classList.toggle("pmppp-theme-midnight-sapphire", theme === THEMES.MIDNIGHT);
 
     ensureMidnightBackground(theme === THEMES.MIDNIGHT && !isDigiboekPage());
-    applyAuthStructure();
+
+    if (theme === THEMES.MIDNIGHT) {
+        applyAuthStructure();
+    } else {
+        const previousClasses = ["pmppp-auth-login", "pmppp-auth-lostpassword", "pmppp-auth-register"];
+        document.body.classList.remove(...previousClasses, "pmppp-auth-page", "pmppp-custom-auth-active", "pmppp-login-page", "pmppp-compact-login");
+        teardownCustomAuthShell();
+    }
+
     syncThemeMenu(theme);
 }
 
