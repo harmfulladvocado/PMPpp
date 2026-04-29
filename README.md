@@ -21,7 +21,7 @@ It lets you switch between themes and control persistence, so the platform looks
 6. Enjoy!
 
 ## Usage
-1. Open [id.pelckmans.be](https://id.pelckmans.be/nl/login/p)
+1. Open [pelckmansportaal.be](https://www.pelckmansportaal.be/)
 2. The theme applies automatically on page load
 3. Click the `P++` button to switch themes or adjust persistence settings
 
